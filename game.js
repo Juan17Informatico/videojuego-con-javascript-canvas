@@ -8,26 +8,32 @@ window.addEventListener('resize', setCanvasSize);
 
 function setCanvasSize(){
   if (window.innerHeight > window.innerWidth) {
-    canvasSize = window.innerWidth * 0.8;
+    canvasSize = window.innerWidth * 0.75;
   } else {
-    canvasSize = window.innerHeight * 0.8;
+    canvasSize = window.innerHeight * 0.75;
   }
   
   canvas.setAttribute('width', canvasSize);
   canvas.setAttribute('height', canvasSize);
   
-  elementsSize = canvasSize / 10;
+  elementsSize = canvasSize / 10; ;
 
   startGame();
 }
 function startGame() {
     console.log({ canvasSize, elementsSize });
   
-    game.font = elementsSize + 'px Verdana';
+    console.log({game});
+    game.font = elementsSize - 10 + 'px Verdana';
     game.textAlign = 'end';
-  
+    console.log({game});
+    game.fillStyle = 'black';
+
     for (let i = 1; i <= 10; i++) {
-      game.fillText(emojis['X'], elementsSize, elementsSize * i);
+      for (let y = 1; y <= 10; y++) {
+          game.fillText(emojis['X'], elementsSize * i, elementsSize * y - 13);        
+        
+      }
     }
 
     // window.innerHeight
