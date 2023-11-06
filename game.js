@@ -7,7 +7,6 @@ const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
-
 //
 const playerPosition = {
   x: undefined,
@@ -65,29 +64,29 @@ function startGame() {
       const x = elementsSize * (colI + 1);
       const y = (elementsSize * (rowI + 1)) - 15;
 
-      if(emoji == emojis['O']){
-        game.fillText(emojis['PLAYER'], x, y)
+      if (emoji == emojis['O'] && playerPosition.x == undefined && playerPosition.y == undefined) {
+        playerPosition.x = x;
+        playerPosition.y = y;
       }
 
       game.fillText(emoji, x, y);
     })
 
+
   })
 
-  /** 
-   * Forma alternativa de hacerlo. 
-  */
-  //Se establece la posición de los elementos del canvas según el tamaño de los elementos realizando un ciclo for para llenar cada cuadricula
-  // for (let row = 1; row <= 10; row++) {
-  //   for (let col = 1; col <= 10; col++) {
-  //       const emoji = emojis[mapaColsRows[row - 1][col -1]];
-  //       const x = elementsSize * col;
-  //       const y = (elementsSize * row) - 15;
-  //       game.fillText(emoji, x, y);        
-  //   }
-  // }
+
+  movePlayer();
 }
 
+/*Move player*/
+function movePlayer() {
+  game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
+function clearMap() {
+  game.clearRect(0, 0, canvasSize, canvasSize);
+}
 /**
  * Se captura el evento para captar correctamente los movimiento del jugador. 
  */
@@ -100,18 +99,70 @@ btnLeft.addEventListener('click', moveLeft);
 /**La lógica para realizar acciones al momento de presionar un botón */
 function moveUp() {
   console.log('Arriba');
+  clearMap();
+  //Se valida si la posición en Y es menor al elementSize(al tamaño de cada emoji ya que este es el valor que se acerca más al punto cero en Y)
+  //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
+  if (playerPosition.y <= elementsSize) {
+    startGame();
+    return;
+  } else if (playerPosition.y == elementsSize || playerPosition.y >= elementsSize) {
+    playerPosition.y -= elementsSize;
+    startGame();
+    return;
+  }
+
 }
 
 function moveDown() {
   console.log('Abajo');
+  clearMap();
+
+  //Se valida si la posición en Y, si es mayor al canvasSize(al tamaño de total del canvas - 15(por que en lineas anterior este valor es modificado para un responsive mejor) 
+  // ya que este es el valor que se acerca más al punto oversize en Y)
+  //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
+  if (playerPosition.y >= (canvasSize - 15)) {
+    startGame();
+    return;
+  } else if (playerPosition.y < (canvasSize - 15)) {
+    playerPosition.y += elementsSize;
+    startGame();
+    return;
+  }
 }
 
 function moveLeft() {
   console.log('Izquierda');
+  clearMap();
+
+  //Se valida si la posición en X es menor al elementSize(al tamaño de cada emoji ya que este es el valor que se acerca más al punto cero en x)
+  //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
+  if (playerPosition.x <= elementsSize) {
+    startGame();
+    return;
+  } else if (playerPosition.x == elementsSize || playerPosition.x > elementsSize) {
+    playerPosition.x -= elementsSize;
+    startGame();
+    return;
+  }
+
 }
 
 function moveRight() {
   console.log('Derecha');
+  clearMap();
+
+  //Se valida si la posición en X, si es mayor al canvasSize(al tamaño de total del canvas - 15(por que en lineas anterior este valor es modificado para un responsive mejor) 
+  // ya que este es el valor que se acerca más al punto oversize en Y)
+  //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
+  if (playerPosition.x >= (canvasSize - 15)) {
+    startGame();
+    return;
+  } else if (playerPosition.x < (canvasSize - 15)) {
+    playerPosition.x += elementsSize;
+    startGame();
+    return;
+  }
+
 }
 
 //Captura los movimientos de teclado
@@ -129,9 +180,9 @@ function moveKeys(event) {
   else if (key == down)
     moveDown()
   else if (key == left)
-    moveRight()
-  else if (key == right)
     moveLeft()
+  else if (key == right)
+    moveRight()
 
 
 }
