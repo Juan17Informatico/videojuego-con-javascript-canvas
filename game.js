@@ -98,14 +98,12 @@ btnLeft.addEventListener('click', moveLeft);
 
 /**La lógica para realizar acciones al momento de presionar un botón */
 function moveUp() {
-  console.log('Arriba');
-  clearMap();
   //Se valida si la posición en Y es menor al elementSize(al tamaño de cada emoji ya que este es el valor que se acerca más al punto cero en Y)
   //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
   if (playerPosition.y <= elementsSize) {
-    startGame();
     return;
   } else if (playerPosition.y == elementsSize || playerPosition.y >= elementsSize) {
+    clearMap();
     playerPosition.y -= elementsSize;
     startGame();
     return;
@@ -114,16 +112,13 @@ function moveUp() {
 }
 
 function moveDown() {
-  console.log('Abajo');
-  clearMap();
-
   //Se valida si la posición en Y, si es mayor al canvasSize(al tamaño de total del canvas - 15(por que en lineas anterior este valor es modificado para un responsive mejor) 
   // ya que este es el valor que se acerca más al punto oversize en Y)
   //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
   if (playerPosition.y >= (canvasSize - 15)) {
-    startGame();
     return;
   } else if (playerPosition.y < (canvasSize - 15)) {
+    clearMap();
     playerPosition.y += elementsSize;
     startGame();
     return;
@@ -131,15 +126,12 @@ function moveDown() {
 }
 
 function moveLeft() {
-  console.log('Izquierda');
-  clearMap();
-
   //Se valida si la posición en X es menor al elementSize(al tamaño de cada emoji ya que este es el valor que se acerca más al punto cero en x)
   //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
   if (playerPosition.x <= elementsSize) {
-    startGame();
     return;
   } else if (playerPosition.x == elementsSize || playerPosition.x > elementsSize) {
+    clearMap();
     playerPosition.x -= elementsSize;
     startGame();
     return;
@@ -148,16 +140,13 @@ function moveLeft() {
 }
 
 function moveRight() {
-  console.log('Derecha');
-  clearMap();
-
   //Se valida si la posición en X, si es mayor al canvasSize(al tamaño de total del canvas - 15(por que en lineas anterior este valor es modificado para un responsive mejor) 
   // ya que este es el valor que se acerca más al punto oversize en Y)
   //En caso de ser menor o igual que elementSize no se renderizara una nueva posicion para el personake
   if (playerPosition.x >= (canvasSize - 15)) {
-    startGame();
     return;
   } else if (playerPosition.x < (canvasSize - 15)) {
+    clearMap();
     playerPosition.x += elementsSize;
     startGame();
     return;
