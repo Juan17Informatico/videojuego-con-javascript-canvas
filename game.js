@@ -1,8 +1,11 @@
 //Variables para traer los elementos del DOM
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d');
+
 let canvasSize;
 let elementsSize;
+let level = 0;
+
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 const btnUp = document.getElementById('up');
@@ -12,6 +15,14 @@ const playerPosition = {
   x: undefined,
   y: undefined,
 }
+
+const giftPosition = {
+  x: undefined,
+  y: undefined,
+}
+
+let enemyPositions = [];
+
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -49,12 +60,21 @@ function startGame() {
 
   //Trim es una función que sirve para eliminar los espacios en blanco al inicio y al final de un string
   //Split es una función que sirve para separar un string en un array de strings
-
   //Configuración del mapa del juego
-  const mapa = maps[0];
+  const mapa = maps[level];
+
+  if (!mapa) {
+    gameWin();
+    return;
+  }
+
   const mapaRows = mapa.trim().split('\n');
   const mapaColsRows = mapaRows.map(row => row.trim().split(''));
 
+  enemyPositions = [];
+
+  
+  clearMap();
   //Se realiza el render del mapa mediante un ForEach. 
   mapaColsRows.forEach((row, rowI) => { //element, index
 
@@ -67,13 +87,21 @@ function startGame() {
       if (emoji == emojis['O'] && playerPosition.x == undefined && playerPosition.y == undefined) {
         playerPosition.x = x;
         playerPosition.y = y;
+      } else if (emoji == emojis['I']) {
+        giftPosition.x = x;
+        giftPosition.y = y;
+      } else if (col == 'X') {
+        enemyPositions.push({
+          posX: x,
+          posY: y,
+        });
       }
 
       game.fillText(emoji, x, y);
     })
 
 
-  })
+  });
 
 
   movePlayer();
@@ -81,7 +109,67 @@ function startGame() {
 
 /*Move player*/
 function movePlayer() {
+
+  const giftCollisionX = Math.floor(playerPosition.x) == Math.floor(giftPosition.x);
+  const giftCollisionY = Math.floor(playerPosition.y) == Math.floor(giftPosition.y)
+  const giftCollision = giftCollisionX && giftCollisionY;
+
+
+  if (giftCollision) {
+    enemyCollisionX = [];
+    enemyCollisionY = [];
+    return levelWin();
+  }
+
+  const enemyCollision = enemyPositions.find(enemy => {
+    const enemyCollisionX = enemy.posX.toFixed(3) == playerPosition.x.toFixed(3);
+    const enemyCollisionY = enemy.posY.toFixed(3) == playerPosition.y.toFixed(3);
+    return enemyCollisionX && enemyCollisionY;
+  });
+
+  //Enemy Collision
+  // enemyCollisionX = enemyPosition.x.find(xi => {
+  //   if (Math.floor(playerPosition.x) == Math.floor(xi)) {
+  //     return true;
+  //   }
+  // }
+  // );
+
+  // enemyCollisionY = enemyPosition.y.find(yi => {
+
+  //   if (Math.floor(playerPosition.y) == Math.floor(yi)) {
+  //     return true;
+  //   }
+  
+  // });
+
+  // let enemyCollision;
+  // if(Math.floor(enemyCollisionX) && Math.floor(enemyCollisionY)){
+    
+  //   enemyCollision = true;
+  
+  // }else{
+  //   enemyCollision = false;
+  // }
+
+
+  if (enemyCollision) {
+    level = 0;
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
+    startGame();
+  }
+
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
+function levelWin() {
+  level++;
+  startGame();
+}
+
+function gameWin() {
+  console.log('ganaste');
 }
 
 function clearMap() {

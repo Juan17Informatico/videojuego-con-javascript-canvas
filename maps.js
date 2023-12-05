@@ -4,19 +4,19 @@
 */
 
 const emojis = {
-    '-': ' ',
-    'O': '🚪',
-    'X': '🗿',
-    'I': '🎁',
-    'PLAYER': '💀',
-    'BOMB_COLLISION': '🔥',
-    'GAME_OVER': '👎',
-    'WIN': '🏆',
-    'HEART': '❤️',
-  };
-  
-  const maps = [];
-  maps.push(`
+  '-': ' ',
+  'O': '🚪',
+  'X': '🗿',
+  'I': '🎁',
+  'PLAYER': '💀',
+  'BOMB_COLLISION': '🔥',
+  'GAME_OVER': '👎',
+  'WIN': '🏆',
+  'HEART': '❤️',
+};
+
+const maps = [];
+maps.push(`
     IXXXXXXXXX
     -XXXXXXXXX
     -XXXXXXXXX
@@ -28,7 +28,7 @@ const emojis = {
     -XXXXXXXXX
     OXXXXXXXXX
   `);
-  maps.push(`
+maps.push(`
     O--XXXXXXX
     X--XXXXXXX
     XX----XXXX
@@ -40,7 +40,7 @@ const emojis = {
     XXXX---IXX
     XXXXXXXXXX
     `);
-  maps.push(`
+maps.push(`
     I-----XXXX
     XXXXX-XXXX
     XX----XXXX
@@ -52,3 +52,65 @@ const emojis = {
     XX-----OXX
     XXXXXXXXXX
   `);
+// maps.push(`
+//     I-------X
+//     -XXXXXXXX
+//     -X--X---X
+//     -X--X---X
+//     -X--X---X
+//     -X--X---X
+//     -X--X---X
+//     -X--X---X
+//     -XXXXXXXX
+//     O--------
+//   `);
+
+// maps.push(`
+//     OX-X-X-IX
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     ----------
+//   `);
+// maps.push(`
+//   O-------X
+//   -XXXXXXX-
+//   -X------X
+//   -X-XXX--X
+//   -X-XXX--X
+//   -X------X
+//   -XXXXXXX-
+//   -X------X
+//   -XXXXXXXX
+//   I--------
+// `);
+// maps.push(`
+//     O-XXXXXXI
+//     -X-XX-XX-
+//     -X-XX-XX-
+//     -X-XX-XX-
+//     -X-XX-XX-
+//     -X-XX-XX-
+//     -X-XX-XX-
+//     -X-XX-XX-
+//     -XXXXXXXX
+//     --------
+//   `);
+
+// maps.push(`
+//     O-------I
+//     -XXXXXXX-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -X-X-X-X-
+//     -XXXXXXXX
+//     --------
+//   `);
