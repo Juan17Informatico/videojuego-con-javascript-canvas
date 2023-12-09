@@ -5,6 +5,7 @@ const game = canvas.getContext('2d');
 let canvasSize;
 let elementsSize;
 let level = 0;
+let lives = 3;
 
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
@@ -116,8 +117,6 @@ function movePlayer() {
 
 
   if (giftCollision) {
-    enemyCollisionX = [];
-    enemyCollisionY = [];
     return levelWin();
   }
 
@@ -154,13 +153,22 @@ function movePlayer() {
 
 
   if (enemyCollision) {
-    level = 0;
-    playerPosition.x = undefined;
-    playerPosition.y = undefined;
-    startGame();
+    levelFail();
   }
 
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
+function levelFail(){
+  lives--;
+  if(lives <= 0){
+    level = 0;
+    lives = 3;
+  }
+
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  startGame();
 }
 
 function levelWin() {
