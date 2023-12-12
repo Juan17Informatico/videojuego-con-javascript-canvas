@@ -6,11 +6,22 @@ let canvasSize;
 let elementsSize;
 let level = 0;
 let lives = 3;
+let timeStart;
+let timePlayer;
+let timeInterval;
+
+//Local Storage 
+localStorage.setItem('record', 0);
 
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
 const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
+//
+const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
+
+// const spanTimes = 
 //
 const playerPosition = {
   x: undefined,
@@ -69,12 +80,19 @@ function startGame() {
     return;
   }
 
+  if (!timeStart) {
+    timeStart = Date.now();
+
+    timeInterval = setInterval(showTime, 100);
+  }
+
   const mapaRows = mapa.trim().split('\n');
   const mapaColsRows = mapaRows.map(row => row.trim().split(''));
+  showLives();
 
   enemyPositions = [];
 
-  
+
   clearMap();
   //Se realiza el render del mapa mediante un ForEach. 
   mapaColsRows.forEach((row, rowI) => { //element, index
@@ -139,14 +157,14 @@ function movePlayer() {
   //   if (Math.floor(playerPosition.y) == Math.floor(yi)) {
   //     return true;
   //   }
-  
+
   // });
 
   // let enemyCollision;
   // if(Math.floor(enemyCollisionX) && Math.floor(enemyCollisionY)){
-    
+
   //   enemyCollision = true;
-  
+
   // }else{
   //   enemyCollision = false;
   // }
@@ -159,11 +177,12 @@ function movePlayer() {
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 }
 
-function levelFail(){
+function levelFail() {
   lives--;
-  if(lives <= 0){
+  if (lives <= 0) {
     level = 0;
     lives = 3;
+    timeStart = 0;
   }
 
   playerPosition.x = undefined;
@@ -176,12 +195,41 @@ function levelWin() {
   startGame();
 }
 
+function showLives() {
+  const heartsArray = Array(lives).fill(emojis['HEART']);
+
+  spanLives.innerHTML = heartsArray.join('');
+}
+
 function gameWin() {
-  console.log('ganaste');
+  clearInterval(timeInterval);
 }
 
 function clearMap() {
   game.clearRect(0, 0, canvasSize, canvasSize);
+}
+
+function showTime() {
+  
+  spanTime.innerHTML = dateFormat(Date.now() - timeStart);
+}
+
+function dateFormat(ms){
+  let hours = Math.floor(ms /3600);
+  let minutes = Math.floor((ms - (hours * 3600)) / 60);
+  let seconds = ms - (hours * 3600) - (minutes * 60);
+
+  if(hours < 10){
+    hours = "0"+hours;
+  }
+  if(minutes < 10){
+    minutes = "0"+minutes;
+  }
+  if(seconds < 10){
+    seconds = "0"+seconds;
+  }
+
+  return hours + ':' + minutes + ':' + seconds;
 }
 /**
  * Se captura el evento para captar correctamente los movimiento del jugador. 
