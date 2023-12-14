@@ -11,7 +11,6 @@ let timePlayer;
 let timeInterval;
 
 //Local Storage 
-localStorage.setItem('record', 0);
 
 const btnLeft = document.getElementById('left');
 const btnRight = document.getElementById('right');
@@ -20,6 +19,10 @@ const btnDown = document.getElementById('down');
 //
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
+//Record
+const spanRecord = document.getElementById('spanRecord');
+const pRecord = document.getElementById('pRecord');
+const pResult = document.getElementById('result');
 
 // const spanTimes = 
 //
@@ -84,6 +87,7 @@ function startGame() {
     timeStart = Date.now();
 
     timeInterval = setInterval(showTime, 100);
+    showRecord();
   }
 
   const mapaRows = mapa.trim().split('\n');
@@ -187,6 +191,7 @@ function levelFail() {
 
   playerPosition.x = undefined;
   playerPosition.y = undefined;
+  setTimeout
   startGame();
 }
 
@@ -202,31 +207,53 @@ function showLives() {
 }
 
 function gameWin() {
+
   clearInterval(timeInterval);
+  const record = localStorage.record_time;
+  const playerTime = Date.now() - timeStart;
+
+  if (record) {
+    if (record >= playerTime) {
+      localStorage.setItem('record_time', playerTime);
+      pResult.innerHTML = 'SUPERASTE EL RECORD';
+    } else {
+      pResult.innerHTML = 'No te superaste a ti mismo? qué mal ';
+    }
+  } else {
+    localStorage.setItem('record_time', playerTime);
+    pResult.innerHTML = 'PRIMERA VEZ?, BUENA SUERTE';
+
+  }
+
+  console.log({ record, playerTime });
 }
 
 function clearMap() {
   game.clearRect(0, 0, canvasSize, canvasSize);
 }
 
+function showRecord() {
+  spanRecord.innerHTML = dateFormat(localStorage.getItem('record_time'));
+}
+
 function showTime() {
-  
+
   spanTime.innerHTML = dateFormat(Date.now() - timeStart);
 }
 
-function dateFormat(ms){
-  let hours = Math.floor(ms /3600);
+function dateFormat(ms) {
+  let hours = Math.floor(ms / 3600);
   let minutes = Math.floor((ms - (hours * 3600)) / 60);
   let seconds = ms - (hours * 3600) - (minutes * 60);
 
-  if(hours < 10){
-    hours = "0"+hours;
+  if (hours < 10) {
+    hours = "0" + hours;
   }
-  if(minutes < 10){
-    minutes = "0"+minutes;
+  if (minutes < 10) {
+    minutes = "0" + minutes;
   }
-  if(seconds < 10){
-    seconds = "0"+seconds;
+  if (seconds < 10) {
+    seconds = "0" + seconds;
   }
 
   return hours + ':' + minutes + ':' + seconds;
