@@ -17,6 +17,8 @@ const btnRight = document.getElementById('right');
 const btnUp = document.getElementById('up');
 const btnDown = document.getElementById('down');
 //
+const reloadBtn = document.getElementById('reload-btn');
+
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 //Record
@@ -55,12 +57,15 @@ function setCanvasSize() {
     canvasSize = window.innerHeight * 0.75;
   }
 
+  canvasSize = Number(canvasSize.toFixed(0));
   //Se establece el tamaño del canvas según el tamaño de la pantalla
   canvas.setAttribute('width', canvasSize);
   canvas.setAttribute('height', canvasSize);
 
   elementsSize = canvasSize / 10;
 
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
   //Se inicializa la función StartGame() para que se ejecute al cargar la página
   startGame();
 }
@@ -225,6 +230,7 @@ function gameWin() {
 
   }
 
+
   console.log({ record, playerTime });
 }
 
@@ -240,6 +246,13 @@ function showTime() {
 
   spanTime.innerHTML = dateFormat(Date.now() - timeStart);
 }
+
+function reloadPage(){
+  location.reload();
+}
+
+/**Add event for relaod page */
+reloadBtn.addEventListener('click', reloadPage);
 
 function dateFormat(ms) {
   let hours = Math.floor(ms / 3600);
